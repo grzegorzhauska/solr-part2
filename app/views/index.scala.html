@@ -1,7 +1,80 @@
-@(message: String)
+@(data: String)
 
 @main("Welcome to Play") {
 
-    @play20.welcome(message)
+<<!DOCTYPE html>
+<html>
+<head>
+   <style type="text/css">
+        html{height: 100%}
+        body{height: 100%; margin: 0; padding: 0}
+        #map-canvas{
+          height: 100%;
+          width: 450px;
+        }
+    </style>
+    <title>GMaps Demo</title>
+    <script src = "https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+
+</head>
+<body>
+
+<p id="xxx">@data</p>
+
+<form action="get" method="GET">
+<input type="text" name="query">
+<br>
+<input type="submit" value="Search">
+</form>
+
+<div id = "map-canvas">
+    </div>
+
+<script type="text/javascript">
+
+function initialize(){
+            var mapOptions = {
+                center: new google.maps.LatLng(56.455716, -106.572266),
+                zoom: 8
+            };
+            var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+
+            var text = document.getElementById("xxx").innerHTML;
+
+  var tablica = text.split(",");
+  var markers = [];
+
+  for (var i = 0; i < tablica.length; i++) {
+
+    var values = tablica[i].split(" ");
+
+    markers.push(new google.maps.Marker({
+      position: new google.maps.LatLng(values[1], values[2]),
+      map: map,
+      title: 'Hello World!'
+    }));
+  };
+
+  var bounds = new google.maps.LatLngBounds();
+  for (i = 0; i < markers.length; i++) {
+    //Extends bounds to contain marker position
+    bounds.extend( markers[i].getPosition() );
+  }
+
+  map.fitBounds( bounds );
+
+      }
+
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+</script>
+</body>
+</html>
+
+
 
 }

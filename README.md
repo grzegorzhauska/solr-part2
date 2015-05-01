@@ -113,3 +113,4 @@ Faceted Search
 ```
 
 
+# solr-part2
